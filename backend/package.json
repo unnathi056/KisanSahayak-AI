@@ -1,0 +1,26 @@
+{
+  "name": "farmer-scheme-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "test": "tsx --test tests/conditionMetadata.test.ts tests/eligibility.test.ts tests/farmerProfiles.test.ts tests/notifications.api.test.ts",
+    "start": "node dist/server.js",
+    "import:schemes": "tsx scripts/import-schemes.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
+    "cors": "^2.8.5",
+    "dotenv": "^18.0.10",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

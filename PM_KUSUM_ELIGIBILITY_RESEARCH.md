@@ -1,0 +1,110 @@
+# PM-KUSUM Eligibility Research
+
+**Research checked:** 19 November 2026  
+**Scope:** Official national and Karnataka government sources only  
+**Purpose:** Research draft for future structured eligibility work. This document does not determine any individual farmer's eligibility and does not add rules to the application.
+
+## Important reading notes
+
+- Component A, Component B, Component C individual pump solarization (IPS), and Component C feeder-level solarization (FLS) have different applicants, requirements, and funding models. They must not be combined into one eligibility rule.
+- **VERIFIED** below means that the cited official source explicitly states the fact. It does not mean that a particular state has an open application window, that an individual applicant qualifies, or that a rule has not since been changed by a state notice.
+- **NEEDS FURTHER VERIFICATION** means the national summary is incomplete, a state notice or current guideline must be checked, or the linked document's text could not be inspected.
+- **UNKNOWN** means no adequate current official evidence was found in the material reviewed. Do not treat unknown information as a match or a disqualification.
+- Portal component summaries were readable on the official PM-KUSUM portal. The portal also lists the 17 January 2024 Comprehensive Guidelines and later circulars. The linked PDF contents could not be reliably text-extracted during this research; detailed claims below are therefore limited to information directly displayed in the portal summaries and the KREDL page.
+
+## Sources reviewed
+
+| ID | Official source | Publication/update date shown | Checked and use |
+|---|---|---|---|
+| S1 | [MNRE PM-KUSUM scheme page](https://mnre.gov.in/offerings/schemes-and-services/details/pradhan-mantri-kisan-urja-suraksha-evam-utthaan-mahabhiyaan-pm-kusum-kzM2IjMtQWa) | No readable date/content in this review | Official MNRE page was located, but its rendered content was not accessible for verification. The existing catalogue entry in `backend/src/schemes.json` records an earlier MNRE-page statement that the scheme period ended 31 March 2026. Treat that as a catalogue snapshot, not verified evidence of a current extension or current application availability. |
+| S2 | [National PM-KUSUM portal](https://pmkusum.mnre.gov.in/) and its official component summaries: [A](https://pmkusum.mnre.gov.in/#/landing/more-about-A), [B](https://pmkusum.mnre.gov.in/#/landing/more-about-B), [C-IPS](https://pmkusum.mnre.gov.in/#/landing/more-about-C-IPS), [C-FLS](https://pmkusum.mnre.gov.in/#/landing/more-about-C-FLS) | No publication date displayed on the summaries; portal dashboard labels achievements as of 31 October 2026 | Read on 19 November 2026. Used for the component descriptions, broad applicant categories, funding summaries, and processes stated below. |
+| S3 | [Official PM-KUSUM documents page](https://pmkusum.mnre.gov.in/#/comp-Documents) | Lists the **Comprehensive Guidelines dated 17 January 2024**, as well as older documents | Read on 19 November 2026. The portal listing verifies the title/date, but not the contents of the linked PDF in this review: [2024 guidelines document link](https://apipmk.mnre.gov.in/api/Master_Document_Landing/SliderImage?docid=115&docspid=41). The listing also includes the 14 December 2021 simplification, 13 November 2020 amendments, and other historical documents; those are not treated here as current rules without current confirmation. |
+| S4 | [PM-KUSUM official documents page](https://pmkusum.mnre.gov.in/#/comp-Documents) and linked notices: [28 September 2026 OM](https://apipmk.mnre.gov.in/api/Master_Document_Landing/SliderImage?docid=207&docspid=41), [26 April 2026 Component A PBI format OM](https://apipmk.mnre.gov.in/api/Master_Document_Landing/SliderImage?docid=205&docspid=41), [25 May 2026 extension clarification](https://apipmk.mnre.gov.in/api/Master_Document_Landing/SliderImage?docid=202&docspid=41), [timeline-extension notice](https://apipmk.mnre.gov.in/api/Master_Document_Landing/SliderImage?docid=199&docspid=41) | Dates are included in some titles; the timeline-extension listing does not show a date in its title | Listing titles were visible on 19 November 2026. The title “extension of timeline for financial closure and completion of projects” concerns project timelines; it does not, by itself, establish an extension of the overall scheme period or a new farmer application window. The linked document text was not relied on for additional claims. |
+| S5 | [KREDL Solar Water Pumps page](https://kredl.karnataka.gov.in/8/solar-water-pumps/en) | No page update date displayed; page describes a 2024-25 to 2026-27 phase | Read on 19 November 2026. Used only for Karnataka Component B details expressly shown on the page. It states 40,000 approved pump sets for the phase, a 30% MNRE / 50% Karnataka Government / 20% beneficiary funding split, treatment of pumps above 7.5 HP, empanelled vendors, and that installations are underway. It does not state an open/close date for new applications. |
+
+### Source and workflow limitations
+
+The requested `PM_KISAN_ELIGIBILITY_RESEARCH_AUDIT.md` was not present among the project files. A differently named `PM_KISAN_STRUCTURED_ELIGIBILITY_AUDIT.md` exists; it is not a substitute for the missing research-audit file. The PM-KISAN and PMFBY research materials were consulted to follow the project's evidence-status and unknown-information conventions.
+
+The MNRE scheme page did not render readable text during this review. The portal's JavaScript component summaries were readable, and the 2024 guideline PDF was listed and fetched, but its content was not successfully extracted. No live application portal, database, or beneficiary record was accessed. No individual applicant was assessed.
+
+## Existing farmer-profile data relevant to this research
+
+The project profile currently contains state, district, crops, land size and unit, optional landholding type, optional irrigation information, and language. These values are farmer-provided profile data; they do not prove land title, pump ownership, electricity connection, site feasibility, or current State Implementing Agency (SIA) allocation.
+
+State and district can help route a farmer to a state notice. The existing fields cannot establish eligibility for a particular PM-KUSUM component. Crop data is not enough to determine a solar-pump technical match or a notified feeder/substation opportunity.
+
+## Component A — Decentralized grid-connected renewable power plants
+
+| Topic | What the official material supports | Evidence status and profile impact |
+|---|---|---|
+| Applicant categories | The national portal lists individual farmers, farmer groups, cooperatives, panchayats, FPOs, and Water User Associations (WUAs) among the possible participants. | **VERIFIED** as portal-listed categories; actual project participation depends on the applicable DISCOM/SIA notice. The profile does not record entity type or group authorization. |
+| Project and land | The portal describes decentralized ground- or stilt-mounted grid-connected plants, generally 500 kW to 2 MW, on farmers' land. Its summary also refers to barren/fallow land. The exact land-use, title/lease, area, and siting tests for a particular project were not verified. | **VERIFIED** for the portal's general description; **NEEDS FURTHER VERIFICATION** for parcel-level conditions. Current land size and landholding type do not establish ownership, suitability, or the required project capacity. |
+| Grid and location | DISCOMs assess and notify substation-wise surplus capacity. Opportunities therefore depend on an identified substation and a DISCOM/SIA procurement or application notice. | **VERIFIED** for the process described by the portal. The profile has no plot coordinates, nearest substation, grid capacity, or current notice data. District alone is insufficient. |
+| Selection and process | The portal describes a DISCOM-issued EOI/application process. Where offered capacity is limited, it describes first-come selection up to the notified limit; where applications exceed capacity, it describes selection by the lowest quoted tariff under a pre-fixed ceiling. The DISCOM purchases power for 25 years from commercial operation, as stated in the portal summary. | **VERIFIED** as the portal summary, but project-specific procurement terms and current notices require confirmation. This is a project-development process, not a simple farmer-profile match. |
+| Subsidy and contribution | The portal summary says there is no central financial assistance for setting up the Component A plant. It separately describes performance-based incentives for DISCOMs (40 paise/kWh or ₹6.60 lakh/MW/year, whichever is lower) and a service charge for SIAs of ₹0.25 lakh/MW. These are not a farmer subsidy. | **VERIFIED** as the displayed summary; **NEEDS FURTHER VERIFICATION** against the applicable current notice and later circulars before quoting amounts as available to a project. No universal farmer contribution was established. |
+| Pump, irrigation, documents, exclusions | Component A is a power-generation project, not a solar-pump component. No universal pump or irrigation prerequisite, complete document checklist, or exhaustive farmer-exclusion list was established from the readable official material. | **UNKNOWN / NEEDS FURTHER VERIFICATION.** Do not reuse Component B/C pump rules or infer disqualification from missing profile data. |
+| Karnataka implementation and deadlines | Karnataka was not shown in the Component A SIA table retrieved from the national portal. No current Karnataka Component A call or farmer deadline was verified. An omission from the retrieved table does not prove that Karnataka has no Component A activity. | **UNKNOWN.** Check a current KREDL/DISCOM notification and substation-specific EOI before showing Component A as available in Karnataka. |
+
+## Component B — Standalone off-grid solar agriculture pumps
+
+| Topic | What the official material supports | Evidence status and profile impact |
+|---|---|---|
+| Applicant categories | The national portal lists individual and group farmers, WUAs, FPOs, PACS, and cluster irrigation systems among potential beneficiaries. | **VERIFIED** as portal-listed categories; eligibility and application priority remain subject to the State's current allocation and notice. The profile does not capture entity/group status. |
+| Pump and connection | The component is described as standalone/off-grid solar agricultural pumps. KREDL's Karnataka page describes its solar water-pump phase and says pumps above 7.5 HP may be installed, while central assistance is capped at the amount applicable to 7.5 HP and additional cost is handled under applicable rules. | **VERIFIED** as statements on the portal/KREDL page; specific pump sizing and cost treatment must be confirmed in the current KREDL/vendor notice. The profile has no pump type, HP, count, or technical details. |
+| Diesel-pump condition | PM-KUSUM's broad objective includes de-dieselisation, but the reviewed current summaries do not establish that every Component B applicant must already own a diesel pump. | **UNKNOWN.** Do not create an automatic requirement or reject an applicant for not reporting a diesel pump. |
+| Land and irrigation | The official material identifies an agricultural-pump use and site survey/feasibility process. It does not establish a universal landholding-size threshold, water-source test, or current State-specific land-tenure rule in the readable summaries. | **NEEDS FURTHER VERIFICATION.** Profile land size, landholding type, and optional irrigation data cannot confirm a technically feasible or legally approved site. |
+| Funding | The national portal describes central assistance of 30% of the lower of benchmark or tender cost, with 50% for specified North-Eastern/hilly States/UTs/islands. KREDL describes Karnataka's 2024-25 to 2026-27 phase as 30% MNRE, 50% Karnataka Government, and 20% beneficiary. These figures are distinct: the Karnataka split is specific to the KREDL phase and must not be generalized to other components or States. | **VERIFIED** as portal/KREDL page statements. The actual amount depends on applicable benchmark/tender cost, pump capacity, current State notice, and beneficiary case. The profile cannot calculate it. |
+| Application and installation | The national portal describes an SIA-led process including applications, vendor empanelment/tendering, beneficiary/vendor selection, site survey/feasibility, and installation. It also mentions a five-year warranty/insurance in its summary. KREDL says its current phase has 40,000 approved pump sets, lists 13 empanelled vendors, and says installations are underway. | **VERIFIED** as the displayed process and KREDL page statements. The KREDL page does not display a page-update date, and these facts do not prove that new applications are open. |
+| Documents, exclusions, deadlines | No definitive current Karnataka document checklist, exhaustive exclusion list, or new-application opening/closing date was found on the reviewed KREDL page or readable portal summaries. | **UNKNOWN / NEEDS FURTHER VERIFICATION.** Obtain the current KREDL notice and application instructions; do not infer documents or exclusion rules from older phases. |
+| Karnataka applicability | KREDL identifies the current phase as 2024-25 through 2026-27 and gives the State's funding split. | **VERIFIED** as the KREDL page's description of that phase. **NEEDS FURTHER VERIFICATION** for the open status, remaining allocation, district coverage, and farmer application deadlines. A phase period is not proof of an open application window. |
+
+## Component C — Individual Pump Solarization (IPS)
+
+| Topic | What the official material supports | Evidence status and profile impact |
+|---|---|---|
+| Applicant and pump | The national portal lists individual/group farmers, WUAs, FPOs, PACS, and cluster systems among potential participants. IPS is described as solarization of existing grid-connected agricultural pumps, with potential sale of surplus electricity to the DISCOM. | **VERIFIED** as the portal description. An existing grid-connected agricultural pump is central to this component; the profile records no pump or electricity-connection details. |
+| Capacity and feasibility | The portal summary says solar capacity may be up to twice the pump capacity in kW and describes site survey/feasibility. The exact applicable sizing and engineering conditions must be checked with the current SIA notice. | **VERIFIED** as the displayed summary; **NEEDS FURTHER VERIFICATION** for an individual installation. |
+| Funding | The portal describes central assistance of 30% of the lower of benchmark or tender cost, with 50% for specified North-Eastern/hilly States/UTs/islands. A current Karnataka State contribution or farmer contribution split was not established. | **VERIFIED** as a national portal summary; **UNKNOWN** for a Karnataka project-specific total funding split. Do not apply Karnataka Component B's 30/50/20 split to IPS. |
+| Application, documents, exclusions | The portal describes SIA-led application/tendering, beneficiary self-contribution, and site assessment. No complete current Karnataka document checklist or exhaustive exclusion list was established from the readable material. | **NEEDS FURTHER VERIFICATION.** A farmer's application status, electricity connection, pump HP, and site must be confirmed by the SIA/DISCOM. Missing data must remain **UNKNOWN**. |
+| Karnataka applicability and deadlines | Karnataka was not shown in the Component C (IPS) SIA table retrieved from the portal. No current Karnataka IPS application notice or deadline was verified. | **UNKNOWN.** Absence from the retrieved table is not proof that no State activity exists. Check KREDL/DISCOM notifications. |
+
+## Component C — Feeder-Level Solarization (FLS)
+
+| Topic | What the official material supports | Evidence status and profile impact |
+|---|---|---|
+| Applicant | The portal describes State DISCOMs as the implementing beneficiaries under CAPEX/RESCO approaches. This is not an individual farmer application component. | **VERIFIED.** The individual farmer profile cannot determine the DISCOM's project selection or feeder status. |
+| Farmer/pump relationship | FLS is described as solarizing agricultural feeders to provide daytime power. A farmer may benefit if connected to a selected feeder, but the reviewed material does not establish a universal individual enrollment rule or which feeders are currently selected. | **VERIFIED** for the general purpose; **UNKNOWN** for any farmer's feeder inclusion. |
+| Funding | The portal summary gives CFA of ₹1.05 crore/MW, or ₹1.75 crore/MW for specified North-Eastern/hilly States/UTs/islands. This is project assistance, not an individual farmer subsidy. | **VERIFIED** as the displayed summary; current project sanction and terms require notice-level confirmation. |
+| Karnataka, documents, and deadlines | The retrieved portal table lists BESCOM and KREDL for Karnataka. No individual-farmer document list or farmer deadline applies as an FLS enrollment rule in the material reviewed. Current feeder/project selection was not verified. | **VERIFIED** for the listed agencies; **UNKNOWN** for the farmer's feeder and any active project. Contact the relevant DISCOM for a specific feeder notice. |
+
+## Currentness, dates, and application status
+
+The official portal's documents page, checked on 19 November 2026, listed the 17 January 2024 Comprehensive Guidelines and several 2026 items, including an OM dated 28 September 2026, a Component A PBI-format OM dated 26 April 2026, a clarification dated 25 May 2026, and a notice titled “Extension of timeline for financial closure and completion of projects under PM KUSUM scheme.” This is evidence of recent administrative activity, but the titles alone do **not** show which eligibility clauses changed, extend the scheme period generally, or open farmer applications.
+
+The catalogue's MNRE-page snapshot says the stated scheme period ended on 31 March 2026. Since the MNRE page itself could not be read in this review, and later portal notices concern specific formats/extensions or project completion, the overall scheme period after that date is **NEEDS FURTHER VERIFICATION**. Do not tell users that all components are open through 2026-27. KREDL's 2024-25 to 2026-27 period is evidence only for its described Karnataka Component B phase; its page does not give a new-application deadline.
+
+The PM-KUSUM dashboard displayed an “as of 31.10.2026” label, but the rendered achievement counters were inconsistent across page loads. They were not used to establish component availability, current allocation, or eligibility.
+
+## Profile fields that are missing for safe future matching
+
+The current profile can at most support coarse routing by State/district and, with substantial caveats, show farmer-reported land or irrigation details. Future component-specific screening would need verified, user-consented information such as:
+
+- Selected component (A, B, C-IPS, or C-FLS) and applicant/entity type (individual, group, cooperative, FPO, PACS, WUA, panchayat, or DISCOM).
+- Plot location/coordinates, parcel area and tenure evidence, and any required land-use/lease authorization.
+- For A: proposed plant capacity, site/siting details, nearest eligible substation, the DISCOM's notified surplus capacity, and current EOI/selection status.
+- For B: existing pump type (if relevant to the specific notice), pump horsepower/capacity/count, water source and technical site-feasibility results, and current KREDL allocation/vendor process. Existing diesel-pump ownership must not be required unless a current official notice says so.
+- For C-IPS: proof of an existing grid-connected agricultural pump, pump capacity, relevant DISCOM/connection verification, and site-feasibility details.
+- For C-FLS: the DISCOM and feeder, plus confirmation that the feeder is selected under an active project. This is primarily agency/project data, not a farmer eligibility profile.
+- Current State/district/component notification, application status, deadline, and any scheme-specific documents confirmed by the responsible SIA/DISCOM.
+
+These are data gaps for verification, not new eligibility rules. Sensitive identifiers or financial details should not be collected merely to support an early eligibility screen; follow the project's privacy and data-minimization requirements.
+
+## Research conclusions
+
+- **Rules identified:** Component A, Component B, C-IPS, and C-FLS have been described separately above. The available evidence supports high-level component structure and some national/Karnataka funding and implementation facts, not a complete set of universal farmer-level eligibility conditions.
+- **Current official sources used:** MNRE's scheme page was located but not readable; the readable national PM-KUSUM portal and its documents listing; and KREDL's Karnataka Solar Water Pumps page.
+- **Rules requiring further verification:** Current overall scheme period; all live State application windows/deadlines; Component A/IPS Karnataka availability; project/feeder/substation and district allocations; parcel title/lease and technical criteria; complete document lists; current per-project subsidy calculations; and any changes made by later circulars.
+- **Profile cannot evaluate:** Applicant/entity category, land title or site suitability, specific substation/feeder, pump type/capacity and grid connection, State allocation, project technical feasibility, documentation, or application status.
+- **Assumptions:** No eligibility conditions were inferred from broad scheme objectives, historical guidelines, missing table entries, or dashboard totals. No individual was declared eligible or ineligible. Unknowns remain unknown.
+- **Implementation status:** No source code, `schemes.json`, database, Supabase, migrations, or existing PM-KISAN/PMFBY research or audit files were modified.

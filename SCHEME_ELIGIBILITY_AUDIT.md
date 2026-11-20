@@ -1,0 +1,27 @@
+# Scheme Eligibility Audit
+
+**Audit date:** 18 November 2026  
+**Sources inspected:** checked-in `backend/src/schemes.json`, live read-only queries of Supabase `public.scheme_catalog` using the public key and the configured secret key, the Supabase migrations, and the notification matcher in `backend/src/server.ts`.
+
+This audit distinguishes scheme-level verification status from condition-level verification. The `verified` status on a scheme does not verify each prose eligibility statement as a structured matcher condition. Prose in the catalogue is recorded as catalogue content; it is not independently validated here. No scheme rules or records were changed.
+
+## Notification matching fields
+
+The Supabase farmer profile stores `state`, `district`, `crops`, `land_size`, `land_unit`, and `landholding_status`. The backend matcher can evaluate structured conditions for state, district, crops/crop, landholding status, and land size (with a matching expected unit). The scheme records queried from Supabase contained no structured `conditions` entries, so none currently provides a complete verified condition set for automatic notification generation.
+
+## Scheme records
+
+| Scheme name | Supabase verification status / data status | Eligibility conditions available | Missing information | Official source URL | Can currently generate farmer notifications? |
+|---|---|---|---|---|---|
+| **Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)** | `verified` / `active` | Catalogue prose lists eligible landholding farmer families, state/UT identification, eKYC for registered farmers, and institutional landholders and specified higher-economic-status categories as exclusions. State availability is Karnataka. These are not condition-level verified structured records. | Supabase `data.conditions` is absent. No explicit, field-by-field verified conditions; `districts` and `eligibleCrops` are null. | [https://www.pmkisan.gov.in/](https://www.pmkisan.gov.in/) | **No.** Scheme-level status is verified and active, but the required structured, verified `conditions` array is absent. |
+| **Pradhan Mantri Fasal Bima Yojana (PMFBY)** | `verified` / `active` | Catalogue prose lists insurable interest in the notified/insured crop and land; crops and areas must be notified for the relevant season; and documentation for non-loanee farmers and tenant/sharecropper arrangements follows state notification. State availability is Karnataka. These are not condition-level verified structured records. | Supabase `data.conditions` is absent. No season-specific crop or district values (`eligibleCrops` and `districts` are null); no field-by-field verified conditions to evaluate against the farmer profile. | [https://pmfby.gov.in/faq](https://pmfby.gov.in/faq) | **No.** Scheme-level status is verified and active, but the required structured, verified `conditions` array is absent. |
+| **Pradhan Mantri Kisan Urja Suraksha evam Utthaan Mahabhiyan (PM-KUSUM)** | `needs_review` / `needs_review` | Catalogue prose says conditions differ by component and that component, state allocation, implementing agency, and current scheme period require verification. State availability is listed as Karnataka. These are not condition-level verified structured records. | Supabase `data.conditions` is absent. Component-specific eligibility, current availability, state allocation, and implementing-agency information remain unverified. | [https://mnre.gov.in/offerings/schemes-and-services/details/pradhan-mantri-kisan-urja-suraksha-evam-utthaan-mahabhiyaan-pm-kusum-kzM2IjMtQWa](https://mnre.gov.in/offerings/schemes-and-services/details/pradhan-mantri-kisan-urja-suraksha-evam-utthaan-mahabhiyaan-pm-kusum-kzM2IjMtQWa) | **No.** The Supabase record is `needs_review`, the scheme data status is `needs_review`, and structured verified conditions are absent. |
+
+## Findings
+
+- **Structured verified eligibility conditions:** none of the three queried Supabase scheme records has a `conditions` array. The two scheme records marked `verified` therefore have scheme-level verification only; no eligibility condition is available to label verified at condition level.
+- **Structured farmer-profile matching fields:** the profile schema and matcher support state, district, crops, landholding status, and land size/unit. Scheme-specific condition records mapping eligibility to these fields are missing for all three schemes.
+- **Notification eligibility:** PM-KISAN and PMFBY pass the record-level verified/active status checks, but cannot match without required verified structured conditions. PM-KUSUM is excluded at the status check as well.
+- **Official source URLs:** every record has an HTTPS official source URL recorded in Supabase. Links above reproduce the stored source URL; they were not independently revalidated during this audit.
+
+**Method limitation:** The live Supabase inspection was read-only and queried only `scheme_catalog` fields relevant to this audit. The public-key query returned PM-KISAN and PMFBY; PM-KUSUM was hidden by the public policy because it is not approved/active. The configured secret-key read returned those two records plus PM-KUSUM. No profile or notification rows were queried. A successful database connection does not independently validate the underlying official eligibility rules or prove notification generation against a live farmer profile. The Supabase `last_verified_at` values and catalogue `lastVerifiedAt` values were 2026-11-14 for all three records.

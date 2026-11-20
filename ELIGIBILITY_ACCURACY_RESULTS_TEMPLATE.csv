@@ -1,0 +1,21 @@
+Test Case ID,Scheme,Expected Result,Actual Result,TP/TN/FP/FN,Correct/Incorrect/Undetermined,Evidence,Notes
+EA-01,PM-KISAN,Undetermined,,,,,Not eligible for binary accuracy scoring; no authoritative individual ground truth in inspected evidence.
+EA-02,PM-KISAN,Undetermined,,,,,Not eligible for binary accuracy scoring; no authoritative individual ground truth in inspected evidence.
+EA-03,PM-KISAN,Undetermined,,,,,Do not use the historical 2-hectare limit as current ground truth.
+EA-04,PM-KISAN,Undetermined,,,,,Land size alone does not establish eligibility.
+EA-05,PM-KISAN,Undetermined,,,,,Self-reported landless status is not authoritative land/family evidence.
+EA-06,PM-KISAN,Undetermined,,,,,Tenant/sharecropper status alone has no established automatic result.
+EA-07,PMFBY,Undetermined,,,,,Current crop/area/season notification and insurable interest are unverified.
+EA-08,PMFBY,Undetermined,,,,,Tenant route is State/season evidence-dependent.
+EA-09,PMFBY,Undetermined,,,,,Self-reported agreement requires current State/authority verification.
+EA-10,PMFBY,Undetermined,,,,,A broad crop category does not establish current local notification.
+EA-11,PMFBY,Undetermined,,,,,Multiple reported crops do not establish a current notification or insurable interest.
+EA-12,PMFBY,Undetermined,,,,,Profile alone cannot settle land arrangement or insurable interest.
+EA-13,PM-KUSUM Component A,Undetermined,,,,,Project capacity/site/substation/EOI and current availability are unverified.
+EA-14,PM-KUSUM Component A,Undetermined,,,,,Participant category is not project or application qualification.
+EA-15,PM-KUSUM Component B,Undetermined,,,,,Pump/site technical details and current allocation are missing.
+EA-16,PM-KUSUM Component B,Undetermined,,,,,Central and Karnataka pump-capacity statements need current-scope confirmation.
+EA-17,PM-KUSUM Component B,Undetermined,,,,,Irrigation self-report does not establish pump/site/application facts.
+EA-18,PM-KUSUM Component C-IPS,Undetermined,,,,,Pump/connection evidence and current Karnataka availability are unverified.
+EA-19,PM-KUSUM Component C-FLS,Undetermined,,,,,Feeder selection and current project status are unverified.
+EA-20,PM-KUSUM component unspecified,Undetermined,,,,,Components differ; scheme continuation and component selection are unresolved.

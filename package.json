@@ -1,0 +1,13 @@
+{
+  "name": "digital-farmer-scheme-discovery",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["frontend", "backend"],
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c green,blue \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "build": "npm run build -w backend && npm run build -w frontend",
+    "test": "npm run test -w backend && npm run test -w frontend",
+    "start": "npm run start -w backend"
+  },
+  "devDependencies": { "concurrently": "^9.1.2" }
+}
