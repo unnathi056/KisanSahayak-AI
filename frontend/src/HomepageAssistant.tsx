@@ -45,12 +45,14 @@ export default function HomepageAssistant({
   authenticated,
   onSignIn,
   onDashboard,
+  openRequest,
 }: {
   language: AssistantLanguage;
   onLanguageChange: (language: AssistantLanguage) => void;
   authenticated: boolean;
   onSignIn: () => void;
   onDashboard: () => void;
+  openRequest?: number;
 }) {
   const [open, setOpen] = useState(false);
   const [minimized, setMinimized] = useState(false);
@@ -74,6 +76,13 @@ export default function HomepageAssistant({
     ? { welcome: 'ನಮಸ್ಕಾರ! ಕಿಸಾನ್ ಸಹಾಯಕಕ್ಕೆ ಸ್ವಾಗತ. ನಾನು ನಿಮಗೆ ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?', placeholder: 'ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಬರೆಯಿರಿ…', send: 'ಕಳುಹಿಸಿ', listen: 'ಮಾತನಾಡಲು ಒತ್ತಿರಿ', stop: 'ನಿಲ್ಲಿಸಿ', cancel: 'ರದ್ದುಮಾಡಿ', micUnsupported: 'ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಟೈಪ್ ಮಾಡಿ.', privacy: 'ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆಗೆ ಬ್ರೌಸರ್ ಆನ್‌ಲೈನ್ ಸೇವೆಯನ್ನು ಬಳಸಬಹುದು. ಕಿಸಾನ್ ಸಹಾಯಕ ಧ್ವನಿಯನ್ನು ಉಳಿಸುವುದಿಲ್ಲ.', permission: 'ಮೈಕ್ರೊಫೋನ್ ಅನುಮತಿ ನಿರಾಕರಿಸಲಾಗಿದೆ. ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಅನುಮತಿಸಿ.', noMic: 'ಮೈಕ್ರೊಫೋನ್ ಕಂಡುಬಂದಿಲ್ಲ. ಟೈಪ್ ಮಾಡಿ ಮುಂದುವರಿಯಿರಿ.', noSpeech: 'ಧ್ವನಿ ಕೇಳಿಸಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ ಅಥವಾ ಟೈಪ್ ಮಾಡಿ.', network: 'ಧ್ವನಿ ಸೇವೆಯನ್ನು ಸಂಪರ್ಕಿಸಲಾಗಲಿಲ್ಲ. ಟೈಪ್ ಮಾಡಿ ಮುಂದುವರಿಯಿರಿ.', unsupportedLanguage: 'ಈ ಭಾಷೆಗೆ ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಲಭ್ಯವಿಲ್ಲ. ಭಾಷೆ ಬದಲಿಸಿ ಅಥವಾ ಟೈಪ್ ಮಾಡಿ.', listening: 'ಕೇಳುತ್ತಿದ್ದೇನೆ…', ready: 'ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಇಲ್ಲಿ ಕೇಳಿ ಅಥವಾ ಟೈಪ್ ಮಾಡಿ.', voiceResponse: 'ಉತ್ತರವನ್ನು ಧ್ವನಿಯಾಗಿ ಓದಿ', play: 'ಪ್ಲೇ', pause: 'ವಿರಾಮ', resume: 'ಮುಂದುವರಿಸಿ', stopAudio: 'ಆಡಿಯೊ ನಿಲ್ಲಿಸಿ', noVoice: 'ಈ ಭಾಷೆಯ ಧ್ವನಿ ನಿಮ್ಮ ಸಾಧನದಲ್ಲಿ ಲಭ್ಯವಿಲ್ಲ. ಉತ್ತರವನ್ನು ಓದಬಹುದು.', private: authenticated ? 'ವೈಯಕ್ತಿಕ ಶಿಫಾರಸುಗಳಿಗಾಗಿ ನಿಮ್ಮ ರೈತ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ತೆರೆಯಿರಿ.' : 'ನಿಮ್ಮ ರೈತ ಪ್ರೊಫೈಲ್ ಆಧಾರಿತ ಶಿಫಾರಸುಗಳಿಗಾಗಿ ಸೈನ್ ಇನ್ ಮಾಡಿ. ಸಾರ್ವಜನಿಕ ಯೋಜನೆಗಳ ಪ್ರಶ್ನೆಗಳಿಗೆ ಸೈನ್ ಇನ್ ಅಗತ್ಯವಿಲ್ಲ.', signIn: 'ಸೈನ್ ಇನ್', dashboard: 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್', assistant: 'ಕಿಸಾನ್ ಸಹಾಯಕ', close: 'ಮುಚ್ಚಿ', minimize: 'ಕಡಿಮೆ ಮಾಡಿ', restore: 'ಚಾಟ್ ತೆರೆಯಿರಿ', greeting: 'ಸ್ವಾಗತ', error: 'ಕ್ಷಮಿಸಿ, ಈಗ ಉತ್ತರಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.' }
     : { welcome: 'Hello! Welcome to Kisan Sahayak. How can I help you?', placeholder: 'Type your question…', send: 'Send', listen: 'Tap to speak', stop: 'Stop', cancel: 'Cancel', micUnsupported: 'Voice input is not available in this browser. You can type your question instead.', privacy: 'Your browser may use an online speech service. Kisan Sahayak does not record or save audio.', permission: 'Microphone permission was denied. Allow microphone access in your browser settings.', noMic: 'No microphone was found. You can continue by typing.', noSpeech: 'No speech was heard. Try again or type your question.', network: 'The speech service could not be reached. You can continue by typing.', unsupportedLanguage: 'Speech recognition for this language is unavailable here. Change language or type your question.', listening: 'Listening…', ready: 'Ask a question by voice or text.', voiceResponse: 'Read replies aloud', play: 'Play', pause: 'Pause', resume: 'Resume', stopAudio: 'Stop audio', noVoice: 'A voice for this language is not available on this device. The answer is still available to read.', private: authenticated ? 'Open your farmer dashboard for personalized recommendations.' : 'Sign in for recommendations based on your farmer profile. Public scheme questions do not require sign-in.', signIn: 'Sign in', dashboard: 'Dashboard', assistant: 'Kisan Sahayak', close: 'Close', minimize: 'Minimize', restore: 'Open chat', greeting: 'Welcome', error: 'Sorry, I could not get an answer right now. Please try again.' };
   const latestAnswer = [...messages].reverse().find((message) => message.role === 'assistant' && !message.pending && !message.action && message.text);
+
+  useEffect(() => {
+    if (openRequest) {
+      setOpen(true);
+      setMinimized(false);
+    }
+  }, [openRequest]);
 
   useEffect(() => {
     if (!speechSynthesis) return;

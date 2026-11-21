@@ -13,7 +13,7 @@ type Scheme = {
 type Condition = {id:string;label:string;profileValue:string;requirement:string;result:'match'|'mismatch'|'unknown'|'not_applicable';explanation:string;sourceUrl:string};
 type EligibilityAssessment={status:'eligible'|'not_eligible'|'unknown';reason:string;conditions:{id:string;label:string;description:string;profileValue:string;requiredValue:unknown;status:'eligible'|'not_eligible'|'unknown';sourceUrl:string;lastVerifiedAt?:string;verificationStatus:string}[]};
 
-export function SchemeCatalogue({schemes,lang,onOpen}:{schemes:Scheme[];lang:Language;onOpen:(scheme:Scheme)=>void}) {
+export function SchemeCatalogue({schemes,lang,onOpen,onBack,backLabel}:{schemes:Scheme[];lang:Language;onOpen:(scheme:Scheme)=>void;onBack:()=>void;backLabel:string}) {
   const [query,setQuery]=useState('');
   const [selectedIds,setSelectedIds]=useState<string[]>([]);
   const [comparing,setComparing]=useState(false);
@@ -32,6 +32,7 @@ export function SchemeCatalogue({schemes,lang,onOpen}:{schemes:Scheme[];lang:Lan
     {label:lang==='en'?'Official links':'ಅಧಿಕೃತ ಲಿಂಕ್‌ಗಳು',render:(s:Scheme)=><div className="comparison-links"><a href={s.officialUrl} target="_blank" rel="noreferrer">{lang==='en'?'Application / information portal':'ಅರ್ಜಿ / ಮಾಹಿತಿ ಪೋರ್ಟಲ್'} ↗</a><a href={s.sourceUrl} target="_blank" rel="noreferrer">{s.sourceName} ↗</a></div>},
   ];
   return <section className="flow">
+    <button className="back catalogue-back" onClick={onBack}>← {backLabel}</button>
     <div className="flow-head"><span className="eyebrow">{lang==='en'?'OFFICIAL INFORMATION HUB':'ಅಧಿಕೃತ ಮಾಹಿತಿ ಕೇಂದ್ರ'}</span><h1>{comparing?(lang==='en'?'Compare schemes':'ಯೋಜನೆಗಳನ್ನು ಹೋಲಿಸಿ'):(lang==='en'?'Government scheme catalogue':'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಪಟ್ಟಿ')}</h1><p>{comparing?(lang==='en'?'Compare catalogue information side by side. Check official sources for current requirements.':'ಕ್ಯಾಟಲಾಗ್ ಮಾಹಿತಿಯನ್ನು ಪಕ್ಕಪಕ್ಕದಲ್ಲಿ ಹೋಲಿಸಿ. ಪ್ರಸ್ತುತ ಅವಶ್ಯಕತೆಗಳಿಗೆ ಅಧಿಕೃತ ಮೂಲಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.'):(lang==='en'?'Search the available catalogue. Select two or three schemes to compare. Check official sources before acting.':'ಲಭ್ಯವಿರುವ ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ. ಹೋಲಿಸಲು ಎರಡು ಅಥವಾ ಮೂರು ಯೋಜನೆಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ.')}</p></div>
     {comparing?<><div className="comparison-toolbar"><button className="secondary-button" onClick={()=>setComparing(false)}>{lang==='en'?'Back to schemes':'ಯೋಜನೆಗಳಿಗೆ ಹಿಂತಿರುಗಿ'}</button><span>{selected.length} {lang==='en'?'schemes selected':'ಯೋಜನೆಗಳು ಆಯ್ಕೆಯಾಗಿವೆ'}</span></div><div className="comparison-scroll" role="region" aria-label={lang==='en'?'Scheme comparison table':'ಯೋಜನೆ ಹೋಲಿಕೆ ಪಟ್ಟಿಕೆ'} tabIndex={0}><table className="comparison-table"><thead><tr><th scope="col">{lang==='en'?'Compare':'ಹೋಲಿಕೆ'}</th>{selected.map(s=><th scope="col" key={s.id}>{lang==='kn'?s.nameKn:s.name}</th>)}</tr></thead><tbody>{rows.map(row=><tr key={row.label}><th scope="row">{row.label}</th>{selected.map(s=><td key={s.id}>{row.render(s)}</td>)}</tr>)}</tbody></table></div></>:<>
       <label className="catalog-search">{lang==='en'?'Search schemes':'ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ'}<input value={query} onChange={e=>setQuery(e.target.value)} placeholder={lang==='en'?'Search by scheme name or description':'ಯೋಜನೆ ಹೆಸರು ಅಥವಾ ವಿವರಣೆಯಿಂದ ಹುಡುಕಿ'} /></label>

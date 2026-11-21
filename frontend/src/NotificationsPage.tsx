@@ -5,7 +5,7 @@ type Lang = 'en' | 'kn';
 type Notice = { id:string; scheme_id:string; title:string; message:string; is_read:boolean; created_at:string };
 type Scheme = { id:string; name:string; nameKn:string };
 
-export default function NotificationsPage({lang,session,schemes,onOpenScheme,onUnreadCountChange}:{lang:Lang;session:Session;schemes:Scheme[];onOpenScheme:(id:string)=>void;onUnreadCountChange:(count:number)=>void}) {
+export default function NotificationsPage({lang,session,schemes,onOpenScheme,onUnreadCountChange,onBackToHub}:{lang:Lang;session:Session;schemes:Scheme[];onOpenScheme:(id:string)=>void;onUnreadCountChange:(count:number)=>void;onBackToHub:()=>void}) {
   const [notices,setNotices]=useState<Notice[]>([]);
   const [filter,setFilter]=useState<'all'|'unread'|'read'>('all');
   const [loading,setLoading]=useState(true);
@@ -44,6 +44,7 @@ export default function NotificationsPage({lang,session,schemes,onOpenScheme,onU
   async function openNotice(notice:Notice){if(!notice.is_read)await markRead(notice);onOpenScheme(notice.scheme_id)}
 
   return <main className="flow account-flow notifications-page">
+    <button className="back" onClick={onBackToHub}>← {en?'Back to Scheme Hub':'ಯೋಜನೆ ಕೇಂದ್ರಕ್ಕೆ ಹಿಂತಿರುಗಿ'}</button>
     <div className="flow-head"><span className="eyebrow">{en?'FARMER UPDATES':'ರೈತ ಮಾಹಿತಿ'}</span><h1>{copy.title} {unreadCount>0&&<span className="count-pill">{unreadCount}</span>}</h1><p>{copy.intro}</p></div>
     {error&&<div className="account-error" role="alert">{error}</div>}
     <section className="account-card" aria-label={copy.title}>
