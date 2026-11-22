@@ -1,3 +1,5 @@
+import { apiUrl } from './api';
+
 export type AssistantLanguage = 'en' | 'kn';
 
 export type AssistantReply = {
@@ -7,7 +9,7 @@ export type AssistantReply = {
 };
 
 export async function askAssistant(message: string, language: AssistantLanguage, schemeId?: string): Promise<AssistantReply> {
-  const response = await fetch('/api/ai/chat', {
+  const response = await fetch(apiUrl('/api/ai/chat'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ message, language, ...(schemeId ? { schemeId } : {}) }),

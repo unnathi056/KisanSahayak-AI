@@ -36,7 +36,7 @@ export function setRecommendationCatalogForTests(catalog: typeof recommendationT
   if (process.env.NODE_ENV !== 'test') throw new Error('Test catalogue override is only available in test mode.');
   recommendationTestCatalog=catalog;
 }
-app.use(cors({ origin: ['http://localhost:5173','http://localhost:5174'] }));
+app.use(cors({ origin: ['http://localhost:5173','http://localhost:5174','https://kisan-sahayak-ai-two.vercel.app'] }));
 app.use(express.json({ limit: '16kb' }));
 
 function fail(res: express.Response, message: string, status = 400) { return res.status(status).json({ success: false, error: message }); }
@@ -464,6 +464,6 @@ app.post('/api/ai/chat', limitGeminiRequests, async (req, res) => {
 app.use((_req, res) => fail(res, 'Endpoint not found.', 404));
 export { app };
 if (process.env.NODE_ENV !== 'test') app.listen(port, () => {
-  console.log(`Scheme API listening on http://localhost:${port}`);
+  console.log(`Scheme API listening on port ${port}`);
   startSchemeNotificationScanner();
 });

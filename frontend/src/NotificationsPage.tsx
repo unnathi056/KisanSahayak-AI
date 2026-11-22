@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
+import { apiUrl } from './api';
 
 type Lang = 'en' | 'kn';
 type Notice = { id:string; scheme_id:string; title:string; message:string; is_read:boolean; created_at:string };
@@ -14,7 +15,7 @@ export default function NotificationsPage({lang,session,schemes,onOpenScheme,onU
   const copy=en?{title:'Notifications',intro:'Scheme updates matched to your saved farmer profile.',all:'All',unread:'Unread',read:'Read',mark:'Mark as read',markAll:'Mark all as read',empty:'No notifications in this view.',loading:'Loading your notifications…',statusRead:'Read',statusUnread:'Unread',error:'Could not load notifications. Please try again.'}:{title:'ಅಧಿಸೂಚನೆಗಳು',intro:'ನಿಮ್ಮ ಉಳಿಸಿದ ರೈತ ಪ್ರೊಫೈಲ್‌ಗೆ ಹೊಂದುವ ಯೋಜನೆ ಮಾಹಿತಿ.',all:'ಎಲ್ಲಾ',unread:'ಓದದವು',read:'ಓದಿದವು',mark:'ಓದಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ',markAll:'ಎಲ್ಲವನ್ನೂ ಓದಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ',empty:'ಈ ವಿಭಾಗದಲ್ಲಿ ಅಧಿಸೂಚನೆಗಳಿಲ್ಲ.',loading:'ಅಧಿಸೂಚನೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ…',statusRead:'ಓದಲಾಗಿದೆ',statusUnread:'ಓದಿಲ್ಲ',error:'ಅಧಿಸೂಚನೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ಆಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'};
 
   async function request<T>(path:string,init?:RequestInit):Promise<T>{
-    const response=await fetch(path,{...init,headers:{'Content-Type':'application/json',Authorization:`Bearer ${session.access_token}`,...init?.headers}});
+    const response=await fetch(apiUrl(path),{...init,headers:{'Content-Type':'application/json',Authorization:`Bearer ${session.access_token}`,...init?.headers}});
     const payload=await response.json();
     if(!response.ok||!payload.success)throw new Error(payload.error||copy.error);
     return payload.data as T;

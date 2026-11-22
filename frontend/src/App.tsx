@@ -5,6 +5,7 @@ import NotificationsPage from './NotificationsPage';
 import AssistantAnswer from './AssistantAnswer';
 import HomepageAssistant from './HomepageAssistant';
 import { answerWithSource, askAssistant } from './aiChat';
+import { apiUrl } from './api';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
 import { isLandholdingStatus, isValidLandSize, type LandholdingStatus } from './profileValidation';
@@ -99,9 +100,9 @@ export default function App(){
   return()=>window.removeEventListener('popstate',onPopState);
  },[]);
  function changeLandholdingType(value:string){if(!isLandholdingStatus(value))return;setForm(current=>({...current,landholdingType:value,landSize:value==='landless'?'0':current.landholdingType==='landless'?'':current.landSize}));}
- useEffect(()=>{fetch('/api/schemes').then(r=>r.json()).then(j=>{if(j.success)setSchemes(j.data);else setError(x.error)}).catch(()=>setError(x.error));},[]);
+ useEffect(()=>{fetch(apiUrl('/api/schemes')).then(r=>r.json()).then(j=>{if(j.success)setSchemes(j.data);else setError(x.error)}).catch(()=>setError(x.error));},[]);
  useEffect(()=>{if(!supabase)return;let active=true;supabase.auth.getSession().then(({data})=>{if(active){setSession(data.session);setAuthReady(true)}}).catch(()=>{if(active)setAuthReady(true)});const {data:{subscription}}=supabase.auth.onAuthStateChange((event,next)=>{setSession(next);setAuthReady(true);if(event==='PASSWORD_RECOVERY'){setRecoveryMode(true);navigate('account',{replace:true})}if(event==='SIGNED_IN'){setRecoveryMode(false);setAccountFocus('dashboard');navigate('account',{replace:true,accountFocus:'dashboard'})}if(event==='SIGNED_OUT'){setRecoveryMode(false);setAuthView('login');navigate('home',{replace:true})}});return()=>{active=false;subscription.unsubscribe()}},[]);
- useEffect(()=>{if(!session){setUnreadCount(0);return}let active=true;fetch('/api/me/notifications?status=unread',{headers:{Authorization:'Bearer '+session.access_token}}).then(r=>r.json()).then(j=>{if(active&&j.success)setUnreadCount(j.data.length)}).catch(()=>{});return()=>{active=false}},[session?.access_token]);
+ useEffect(()=>{if(!session){setUnreadCount(0);return}let active=true;fetch(apiUrl('/api/me/notifications?status=unread'),{headers:{Authorization:'Bearer '+session.access_token}}).then(r=>r.json()).then(j=>{if(active&&j.success)setUnreadCount(j.data.length)}).catch(()=>{});return()=>{active=false}},[session?.access_token]);
  useEffect(()=>{
   if(page==='notifications'&&authReady&&!session){setAuthView('login');navigate('account',{replace:true});return}
   if(page!=='detail'||!schemes.length)return;
@@ -113,7 +114,7 @@ export default function App(){
   setSelectedResult(results.find(result=>result.schemeId===scheme.id)||null);
  },[page,authReady,session?.access_token,schemes,results,detailOrigin]);
  const addCrop=()=>{const c=cropInput.trim();if(c&&!crops.some(x=>x.toLowerCase()===c.toLowerCase()))setCrops([...crops,c]);setCropInput('');};
- async function submit(e:React.FormEvent){e.preventDefault();setError('');const size=Number(form.landSize);const next:ProfileErrors={};if(!form.district.trim())next.district=lang==='en'?'Enter your district.':'ನಿಮ್ಮ ಜಿಲ್ಲೆಯನ್ನು ನಮೂದಿಸಿ.';if(!crops.length)next.crops=lang==='en'?'Add at least one crop.':'ಕನಿಷ್ಠ ಒಂದು ಬೆಳೆಯನ್ನು ಸೇರಿಸಿ.';if(!form.landSize||!isValidLandSize(form.landholdingType,size))next.landSize=landSizeError;setProfileErrors(next);if(Object.keys(next).length)return;setBusy(true);try{const r=await fetch('/api/schemes/recommend',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...form,district:form.district.trim(),crops,landSize:size,language:lang})});const j=await r.json();if(!j.success)throw new Error(j.error);setResults(j.data);setPage('results');}catch(err){setError(err instanceof Error?err.message:x.error)}finally{setBusy(false)}}
+ async function submit(e:React.FormEvent){e.preventDefault();setError('');const size=Number(form.landSize);const next:ProfileErrors={};if(!form.district.trim())next.district=lang==='en'?'Enter your district.':'ನಿಮ್ಮ ಜಿಲ್ಲೆಯನ್ನು ನಮೂದಿಸಿ.';if(!crops.length)next.crops=lang==='en'?'Add at least one crop.':'ಕನಿಷ್ಠ ಒಂದು ಬೆಳೆಯನ್ನು ಸೇರಿಸಿ.';if(!form.landSize||!isValidLandSize(form.landholdingType,size))next.landSize=landSizeError;setProfileErrors(next);if(Object.keys(next).length)return;setBusy(true);try{const r=await fetch(apiUrl('/api/schemes/recommend'),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...form,district:form.district.trim(),crops,landSize:size,language:lang})});const j=await r.json();if(!j.success)throw new Error(j.error);setResults(j.data);setPage('results');}catch(err){setError(err instanceof Error?err.message:x.error)}finally{setBusy(false)}}
  async function ask(){if(!selected||!question.trim())return;const q=question.trim();setQuestion('');setChat(old=>[...old,{q,a:'…'}]);try{const reply=await askAssistant(q,lang,selected.id);setChat(old=>[...old.slice(0,-1),{q,a:answerWithSource(reply)}]);}catch(error){setChat(old=>[...old.slice(0,-1),{q,a:error instanceof Error?error.message:x.error}]);}}
  const openDetail=(s:Scheme,result?:Result)=>{const origin=page==='account'||page==='catalog'||page==='results'||page==='notifications'?page:'catalog';setSelected(s);setSelectedResult(result||(origin==='results'?results.find(r=>r.schemeId===s.id):null)||null);setChat([]);navigate('detail',{detailOrigin:origin,schemeId:s.id})};
  const openAccount=(focus:'dashboard'|'profile'='dashboard')=>{if(!session)setAuthView('login');navigate('account',{accountFocus:focus})};

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
-    "test": "tsx --test tests/eligibilityView.test.ts tests/recommendations.test.ts"
+    "test": "tsx --test tests/eligibilityView.test.ts tests/recommendations.test.ts tests/api.test.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",

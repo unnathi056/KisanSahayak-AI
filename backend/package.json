@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "test": "tsx --test tests/conditionMetadata.test.ts tests/eligibility.test.ts tests/farmerProfiles.test.ts tests/notifications.api.test.ts",
+    "test": "tsx --test tests/conditionMetadata.test.ts tests/eligibility.test.ts tests/farmerProfiles.test.ts tests/notifications.api.test.ts tests/health.api.test.ts",
     "start": "node dist/server.js",
     "import:schemes": "tsx scripts/import-schemes.ts"
   },

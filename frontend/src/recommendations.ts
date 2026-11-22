@@ -1,3 +1,5 @@
+import { apiUrl } from './api';
+
 export type Recommendation = {schemeId:string;status:string;reasons:string[];missingInformation:string[]};
 export type RecommendationRequest = {
   state:string;
@@ -21,7 +23,7 @@ export async function requestRecommendations(
 ):Promise<Recommendation[]>{
   let response:Response;
   try{
-    response=await fetcher('/api/schemes/recommend',{
+    response=await fetcher(apiUrl('/api/schemes/recommend'),{
       method:'POST',
       headers:{'Content-Type':'application/json',Authorization:`Bearer ${accessToken}`},
       body:JSON.stringify(profile),

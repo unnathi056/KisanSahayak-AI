@@ -67,6 +67,33 @@ Keep both terminals open. Vite forwards `/api` requests to the backend on port 3
 
 To build both apps, run `npm run build`. To run the compiled API, run `npm start` after building.
 
+## Production API configuration
+
+Set `VITE_API_URL` in the Vercel project to the backend origin, for example `https://kisansahayak-ai-3.onrender.com` (without an `/api` suffix). The frontend appends its `/api/...` route paths to this value. When it is unset, requests remain relative so local development continues to use Vite's `/api` proxy. Redeploy Vercel after changing this build-time variable.
+
+The backend exposes its health check at `/api/health`; the service root `/` is not an API route and may return 404. The backend CORS allowlist includes the deployed Vercel origin and the local Vite development origins.
+
+## Deployment build settings
+
+Deploy the backend and frontend as separate services:
+
+**Render (backend only)**
+
+- Root Directory: the repository root (`.`), where the npm workspace manifest and lockfile live.
+- Build Command: `npm ci --workspace=backend && npm run build --workspace=backend`
+- Start Command: `npm run start --workspace=backend`
+- Use Node.js 22 or newer, as required by the locked Supabase Auth dependency.
+
+Do not use the root `npm run build` on Render; it builds both workspaces, including Vite. The backend-only install does not install or build the frontend.
+
+**Vercel (frontend only)**
+
+- Root Directory: `frontend`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+
+The root lockfile includes the Linux x64 optional native packages required by Rollup and esbuild, so clean Linux workspace installs can build the frontend. No deployment environment-variable changes are required for these build settings.
+
 ## Optional Gemini setup
 
 Copy `.env.example` to `.env` in the project root and set `GEMINI_API_KEY` to a key obtained from Google AI Studio. Keep `.env` private; it is ignored by Git. You may set `GEMINI_MODEL` to a model available to your key. Without a key, scheme browsing and recommendations still work and the chat displays a clear setup message.

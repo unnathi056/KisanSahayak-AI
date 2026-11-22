@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   const merged = { ...frontendEnv };
   for (const [key, value] of Object.entries(projectEnv)) if (value) merged[key] = value;
   const define: Record<string, string> = {};
-  for (const key of ['VITE_SUPABASE_URL', 'VITE_SUPABASE_PUBLISHABLE_KEY']) {
+  for (const key of ['VITE_API_URL', 'VITE_SUPABASE_URL', 'VITE_SUPABASE_PUBLISHABLE_KEY']) {
     if (merged[key]) define[`import.meta.env.${key}`] = JSON.stringify(merged[key]);
   }
   return {
