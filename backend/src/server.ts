@@ -12,9 +12,18 @@ import { createAdminSupabaseClient, createPublicSupabaseClient, createUserSupaba
 const backendEnvPath = resolve(process.cwd(), '.env');
 const projectEnvPath = resolve(process.cwd(), '../.env');
 const nestedBackendEnvPath = resolve(process.cwd(), 'backend/.env');
-if (existsSync(projectEnvPath)) dotenv.config({ path: projectEnvPath });
-if (existsSync(backendEnvPath)) dotenv.config({ path: backendEnvPath });
-if (existsSync(nestedBackendEnvPath)) dotenv.config({ path: nestedBackendEnvPath });
+function loadOptionalEnvFile(path: string): void {
+  if (!existsSync(path)) return;
+  try {
+    const result = dotenv.config({ path });
+    if (result.error) console.error(`Unable to load optional environment file: ${path}`, result.error);
+  } catch (error) {
+    console.error(`Unable to load optional environment file: ${path}`, error);
+  }
+}
+loadOptionalEnvFile(projectEnvPath);
+loadOptionalEnvFile(backendEnvPath);
+loadOptionalEnvFile(nestedBackendEnvPath);
 
 const app = express();
 const port = Number(process.env.PORT || 3001);
@@ -464,7 +473,47 @@ app.post('/api/ai/chat', limitGeminiRequests, async (req, res) => {
 app.use((_req, res) => fail(res, 'Endpoint not found.', 404));
 export { app };
 export default app;
-if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'production') app.listen(port, () => {
-  console.log(`Scheme API listening on port ${port}`);
-  startSchemeNotificationScanner();
-});
+
+function logStartupEnvironment(): void {
+  console.log('SUPABASE_URL:', process.env.SUPABASE_URL?.trim() ? 'configured' : 'missing');
+  console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY?.trim() ? 'configured' : 'missing');
+  console.log('PORT:', process.env.PORT || port);
+}
+
+function initializeSupabase(): void {
+  try {
+    if (!isSupabaseConfigured()) {
+      console.warn('Supabase is not configured; account features will be unavailable.');
+      return;
+    }
+    createPublicSupabaseClient();
+    console.log('Supabase client initialized.');
+  } catch (error) {
+    console.error('Supabase initialization failed:', error);
+  }
+}
+
+function startServer(): void {
+  try {
+    if (!Number.isInteger(port) || port < 1 || port > 65535) {
+      throw new Error(`Invalid PORT value: ${process.env.PORT}`);
+    }
+    const server = app.listen(port, '0.0.0.0', () => {
+      console.log(`Scheme API listening on 0.0.0.0:${port}`);
+      startSchemeNotificationScanner();
+    });
+    server.on('error', (error) => {
+      console.error('Failed to start Scheme API server:', error);
+      process.exitCode = 1;
+    });
+  } catch (error) {
+    console.error('Failed to start Scheme API server:', error);
+    process.exitCode = 1;
+  }
+}
+
+if (process.env.NODE_ENV !== 'test') {
+  logStartupEnvironment();
+  initializeSupabase();
+  startServer();
+}
