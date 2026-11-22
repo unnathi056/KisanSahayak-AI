@@ -17,7 +17,7 @@ const load=(fetcher:typeof fetch)=>requestRecommendations(fetcher,'test-token',p
 
 test('recommendation request returns successful results',async()=>{
   const fetcher:typeof fetch=async(input,init)=>{
-    assert.equal(input,'/api/schemes/recommend');
+    assert.equal(input,'https://kisan-sahayak-ai-pi.vercel.app/api/schemes/recommend');
     assert.equal(init?.method,'POST');
     assert.equal(new Headers(init?.headers).get('Authorization'),'Bearer test-token');
     return response({success:true,data:[recommendation]});
