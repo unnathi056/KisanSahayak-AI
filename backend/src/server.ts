@@ -463,7 +463,8 @@ app.post('/api/ai/chat', limitGeminiRequests, async (req, res) => {
 
 app.use((_req, res) => fail(res, 'Endpoint not found.', 404));
 export { app };
-if (process.env.NODE_ENV !== 'test') app.listen(port, () => {
+export default app;
+if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'production') app.listen(port, () => {
   console.log(`Scheme API listening on port ${port}`);
   startSchemeNotificationScanner();
 });
