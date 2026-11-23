@@ -13,3 +13,8 @@ test('empty API origin falls back to the configured backend', () => {
 test('API paths are joined without duplicate slashes', () => {
   assert.equal(apiUrl('api/health', 'https://backend.example/'), 'https://backend.example/api/health');
 });
+
+test('trailing /api in configured API origin is stripped to prevent double /api', () => {
+  assert.equal(apiUrl('/api/schemes', 'https://kisansahayak-ai-3.onrender.com/api'), 'https://kisansahayak-ai-3.onrender.com/api/schemes');
+  assert.equal(apiUrl('/api/schemes', 'https://kisan-sahayak-ai-pi.vercel.app/api/'), 'https://kisan-sahayak-ai-pi.vercel.app/api/schemes');
+});

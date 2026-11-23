@@ -45,7 +45,42 @@ export function setRecommendationCatalogForTests(catalog: typeof recommendationT
   if (process.env.NODE_ENV !== 'test') throw new Error('Test catalogue override is only available in test mode.');
   recommendationTestCatalog=catalog;
 }
-app.use(cors({ origin: ['http://localhost:5173','http://localhost:5174','https://kisan-sahayak-ai-two.vercel.app'] }));
+const defaultAllowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174',
+  'http://127.0.0.1:3000',
+  'https://kisan-sahayak-ai-two.vercel.app',
+  'https://kisan-sahayak-ai-pi.vercel.app',
+];
+
+export function isOriginAllowed(origin: string | undefined): boolean {
+  if (!origin) return true;
+  const configured = [
+    ...(process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').map(s => s.trim()) : []),
+    ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map(s => s.trim()) : []),
+  ].filter(Boolean);
+  if (configured.includes('*')) return true;
+  if (configured.includes(origin)) return true;
+  if (defaultAllowedOrigins.includes(origin)) return true;
+  if (/^https:\/\/[a-zA-Z0-9_.-]+\.vercel\.app$/.test(origin)) return true;
+  return false;
+}
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (isOriginAllowed(origin)) {
+      callback(null, origin || true);
+    } else {
+      callback(null, false);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+}));
 app.use(express.json({ limit: '16kb' }));
 
 function fail(res: express.Response, message: string, status = 400) { return res.status(status).json({ success: false, error: message }); }

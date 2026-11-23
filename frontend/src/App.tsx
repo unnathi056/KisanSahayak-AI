@@ -100,7 +100,24 @@ export default function App(){
   return()=>window.removeEventListener('popstate',onPopState);
  },[]);
  function changeLandholdingType(value:string){if(!isLandholdingStatus(value))return;setForm(current=>({...current,landholdingType:value,landSize:value==='landless'?'0':current.landholdingType==='landless'?'':current.landSize}));}
- useEffect(()=>{fetch(apiUrl('/api/schemes')).then(r=>r.json()).then(j=>{if(j.success)setSchemes(j.data);else setError(x.error)}).catch(()=>setError(x.error));},[]);
+ useEffect(()=>{
+    fetch(apiUrl('/api/schemes'))
+      .then(r=>{
+        if(!r.ok) throw new Error(`HTTP ${r.status}: ${r.statusText}`);
+        return r.json();
+      })
+      .then(j=>{
+        if(j.success) setSchemes(j.data);
+        else {
+          console.error('API returned scheme fetch error:', j.error);
+          setError(x.error);
+        }
+      })
+      .catch(err=>{
+        console.error('Failed to load schemes from API:', err);
+        setError(x.error);
+      });
+  },[]);
  useEffect(()=>{if(!supabase)return;let active=true;supabase.auth.getSession().then(({data})=>{if(active){setSession(data.session);setAuthReady(true)}}).catch(()=>{if(active)setAuthReady(true)});const {data:{subscription}}=supabase.auth.onAuthStateChange((event,next)=>{setSession(next);setAuthReady(true);if(event==='PASSWORD_RECOVERY'){setRecoveryMode(true);navigate('account',{replace:true})}if(event==='SIGNED_IN'){setRecoveryMode(false);setAccountFocus('dashboard');navigate('account',{replace:true,accountFocus:'dashboard'})}if(event==='SIGNED_OUT'){setRecoveryMode(false);setAuthView('login');navigate('home',{replace:true})}});return()=>{active=false;subscription.unsubscribe()}},[]);
  useEffect(()=>{if(!session){setUnreadCount(0);return}let active=true;fetch(apiUrl('/api/me/notifications?status=unread'),{headers:{Authorization:'Bearer '+session.access_token}}).then(r=>r.json()).then(j=>{if(active&&j.success)setUnreadCount(j.data.length)}).catch(()=>{});return()=>{active=false}},[session?.access_token]);
  useEffect(()=>{

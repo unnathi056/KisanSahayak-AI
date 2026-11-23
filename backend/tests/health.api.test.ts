@@ -29,6 +29,20 @@ test('deployed Vercel origin is allowed by CORS', async () => {
   assert.equal(response.headers.get('access-control-allow-origin'), 'https://kisan-sahayak-ai-two.vercel.app');
 });
 
+test('any deployed Vercel domain is allowed by CORS', async () => {
+  const response = await fetch(`${endpoint}/api/health`, {
+    headers: { Origin: 'https://kisansahayak-ai.vercel.app' },
+  });
+  assert.equal(response.headers.get('access-control-allow-origin'), 'https://kisansahayak-ai.vercel.app');
+});
+
+test('preview Vercel domains are allowed by CORS', async () => {
+  const response = await fetch(`${endpoint}/api/health`, {
+    headers: { Origin: 'https://kisan-sahayak-ai-git-main-unnathi056.vercel.app' },
+  });
+  assert.equal(response.headers.get('access-control-allow-origin'), 'https://kisan-sahayak-ai-git-main-unnathi056.vercel.app');
+});
+
 test('preflight requests from deployed Vercel origin are allowed', async () => {
   const response = await fetch(`${endpoint}/api/me/profile`, {
     method: 'OPTIONS',
